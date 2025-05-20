@@ -1,0 +1,30 @@
+name: Build and Commit Resume PDF
+
+on:
+  push:
+    paths:
+      - '**.tex'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Compile LaTeX to PDF
+        uses: xu-cheng/latex-action@v2
+        with:
+          root_file: manish_kala_resume.tex
+
+      - name: Commit and push PDF to root
+        run: |
+          git config user.name "github-actions"
+          git config user.email "github-actions@github.com"
+          git add manish_kala_resume.pdf
+          git commit -m "chore: auto-update manish_kala_resume.pdf"
+          git push
