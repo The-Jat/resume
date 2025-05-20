@@ -1,32 +1,54 @@
+# Name of the workflow, as it appears in the GitHub Actions tab
 name: Build and Commit Resume PDF
 
+# Define when this workflow should run
 on:
+  # Run the workflow whenever a `.tex` file is pushed to the repo
   push:
     paths:
-      - '**.tex'
+      - '**.tex'  # Match any .tex file in any folder
+
+  # Allow manually triggering this workflow from the GitHub Actions UI
   workflow_dispatch:
 
+  # Schedule the workflow to run automatically every day at midnight (UTC)
+  schedule:
+    - cron: '0 0 * * *'  # ⏰ Runs daily at 00:00 UTC, Which is 05:30 AM IST (India Standard Time)
+
+# Grant the workflow permission to push changes back to the repository
 permissions:
-  contents: write
+  contents: write  # Allows write access to the repository contents (needed for git push)
+
+# Define the list of jobs that make up this workflow
 jobs:
-  build:
-    runs-on: ubuntu-latest
+  build:  # Name of the job
+    runs-on: ubuntu-latest  # Use the latest Ubuntu Linux runner
 
     steps:
+      # Step 1: Checkout the repository to the runner machine
       - name: Checkout repository
         uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.GITHUB_TOKEN }}  # Built-in token for GitHub authentication
 
+      # Step 2: Compile the LaTeX file into a PDF
       - name: Compile LaTeX to PDF
-        uses: xu-cheng/latex-action@v2
+        uses: xu-cheng/latex-action@v2  # A GitHub Action that compiles LaTeX files
         with:
-          root_file: manish_kala_resume.tex
+          root_file: manish_kala_resume.tex  # Your main LaTeX file to compile
 
+      # Step 3: Commit the generated PDF and push it to the repository root
       - name: Commit and push PDF to root
         run: |
+          # Set git identity for the GitHub Actions bot
           git config user.name "github-actions"
           git config user.email "github-actions@github.com"
+
+          # Stage the PDF file for commit
           git add manish_kala_resume.pdf
+
+          # Commit the changes with a message
           git commit -m "chore: auto-update manish_kala_resume.pdf"
+
+          # Push the commit to the current branch
           git push
