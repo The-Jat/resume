@@ -1,0 +1,341 @@
+\documentclass[10pt, letterpaper]{article}
+
+% Packages:
+\usepackage[
+    ignoreheadfoot, % set margins without considering header and footer
+    top=2 cm, % separation between body and page edge from the top
+    bottom=2 cm, % separation between body and page edge from the bottom
+    left=2 cm, % separation between body and page edge from the left
+    right=2 cm, % separation between body and page edge from the right
+    footskip=1.0 cm, % separation between body and footer
+    % showframe % for debugging 
+]{geometry} % for adjusting page geometry
+\usepackage{titlesec} % for customizing section titles
+\usepackage{tabularx} % for making tables with fixed width columns
+\usepackage{array} % tabularx requires this
+\usepackage[dvipsnames]{xcolor} % for coloring text
+\definecolor{primaryColor}{RGB}{0, 79, 144} % define primary color
+\usepackage{enumitem} % for customizing lists
+\usepackage{fontawesome5} % for using icons
+\usepackage{amsmath} % for math
+\usepackage[
+    pdftitle={Manish Kala's CV},
+    pdfauthor={Manish Kala},
+    pdfcreator={LaTeX with RenderCV},
+    colorlinks=true,
+    urlcolor=primaryColor
+]{hyperref} % for links, metadata and bookmarks
+\usepackage[pscoord]{eso-pic} % for floating text on the page
+\usepackage{calc} % for calculating lengths
+\usepackage{bookmark} % for bookmarks
+\usepackage{lastpage} % for getting the total number of pages
+\usepackage{changepage} % for one column entries (adjustwidth environment)
+\usepackage{paracol} % for two and three column entries
+\usepackage{ifthen} % for conditional statements
+\usepackage{needspace} % for avoiding page brake right after the section title
+\usepackage{iftex} % check if engine is pdflatex, xetex or luatex
+
+% Ensure that generated PDF is machine readable/ATS parsable:
+\ifPDFTeX
+    \input{glyphtounicode}
+    \pdfgentounicode=1
+    % \usepackage[T1]{fontenc} % this breaks sb2nov
+    \usepackage[utf8]{inputenc}
+    \usepackage{lmodern}
+\fi
+
+% Some settings:
+\AtBeginEnvironment{adjustwidth}{\partopsep0pt} % remove space before adjustwidth environment
+\pagestyle{empty} % no header or footer
+\setcounter{secnumdepth}{0} % no section numbering
+\setlength{\parindent}{0pt} % no indentation
+\setlength{\topskip}{0pt} % no top skip
+\setlength{\columnsep}{0cm} % set column separation
+\makeatletter
+\let\ps@customFooterStyle\ps@plain % Copy the plain style to customFooterStyle
+\patchcmd{\ps@customFooterStyle}{\thepage}{
+    \color{gray}\textit{\small Manish Kala - Page \thepage{} of \pageref*{LastPage}}
+}{}{} % replace number by desired string
+\makeatother
+\pagestyle{customFooterStyle}
+
+\titleformat{\section}{\needspace{4\baselineskip}\bfseries\large}{}{0pt}{}[\vspace{1pt}\titlerule]
+
+\titlespacing{\section}{
+    % left space:
+    -1pt
+}{
+    % top space:
+    0.3 cm
+}{
+    % bottom space:
+    0.2 cm
+} % section title spacing
+
+\renewcommand\labelitemi{$\circ$} % custom bullet points
+\newenvironment{highlights}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=0.4 cm + 10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights
+
+\newenvironment{highlightsforbulletentries}{
+    \begin{itemize}[
+        topsep=0.10 cm,
+        parsep=0.10 cm,
+        partopsep=0pt,
+        itemsep=0pt,
+        leftmargin=10pt
+    ]
+}{
+    \end{itemize}
+} % new environment for highlights for bullet entries
+
+\newenvironment{onecolentry}{
+    \begin{adjustwidth}{
+        0.2 cm + 0.00001 cm
+    }{
+        0.2 cm + 0.00001 cm
+    }
+}{
+    \end{adjustwidth}
+} % new environment for one column entries
+
+\newenvironment{twocolentry}[2][]{
+    \onecolentry
+    \def\secondColumn{#2}
+    \setcolumnwidth{\fill, 4.5 cm}
+    \begin{paracol}{2}
+}{
+    \switchcolumn \raggedleft \secondColumn
+    \end{paracol}
+    \endonecolentry
+} % new environment for two column entries
+
+\newenvironment{header}{
+    \setlength{\topsep}{0pt}\par\kern\topsep\centering\linespread{1.5}
+}{
+    \par\kern\topsep
+} % new environment for the header
+
+\newcommand{\placelastupdatedtext}{% \placetextbox{<horizontal pos>}{<vertical pos>}{<stuff>}
+  \AddToShipoutPictureFG*{% Add <stuff> to current page foreground
+    \put(
+    \LenToUnit{\paperwidth - 2.15cm}, 
+    \LenToUnit{\paperheight - 1cm}
+){\vtop{\null \makebox[0pt][c]{%
+    \small\color{gray}\textit{Last updated on \today}%
+    \hspace{\widthof{Last updated on September 2024}}%
+}}}%
+  }%
+}%
+
+% save the original href command in a new command:
+\let\hrefWithoutArrow\href
+
+% new command for external links:
+\renewcommand{\href}[2]{\hrefWithoutArrow{#1}{\ifthenelse{\equal{#2}{}}{ }{#2 }\raisebox{.15ex}{\footnotesize \faExternalLink*}}}
+
+\begin{document}
+    \newcommand{\AND}{\unskip
+        \cleaders\copy\ANDbox\hskip\wd\ANDbox
+        \ignorespaces
+    }
+    \newsavebox\ANDbox
+    \sbox\ANDbox{}
+
+    \placelastupdatedtext
+    \begin{header}
+        \textbf{\fontsize{24 pt}{24 pt}\selectfont Manish Kala}
+
+        \vspace{0.3 cm}
+
+        \normalsize
+        \mbox{{\color{black}\footnotesize\faMapMarker*}\hspace*{0.13cm}Haryana, India}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{mailto:manishkl543@gmail.com}{\color{black}{\footnotesize\faEnvelope[regular]}\hspace*{0.13cm}manishkl543@gmail.com}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://thejat.in/}{\color{black}{\footnotesize\faLink}\hspace*{0.13cm}thejat.in}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://linkedin.com/in/manish-kala-46a845139}{\color{black}{\footnotesize\faLinkedinIn}\hspace*{0.13cm}manish-kala}}%
+        \kern 0.25 cm%
+        \AND%
+        \kern 0.25 cm%
+        \mbox{\hrefWithoutArrow{https://github.com/The-Jat}{\color{black}{\footnotesize\faGithub}\hspace*{0.13cm}The-Jat}}%
+    \end{header}
+
+    \vspace{0.3 cm}
+
+    \section{Professional Summary}
+    \begin{onecolentry}
+        % Accomplished Software Engineer with extensive experience in designing, developing, and maintaining innovative software solutions. Recognized for proficiency in C, C++, JavaScript, Angular, and other technologies. Demonstrates strong collaborative teamwork, problem-solving skills, and adaptability in dynamic work environments.
+        % Accomplished Software Engineer with a strong background in system-level programming, embedded development, and competitive problem-solving. Experienced in designing, developing, and optimizing high-performance software solutions across various domains. Proficient in C, C++, JavaScript, Angular, and low-level systems programming. Known for excellent analytical thinking, algorithmic problem-solving, and active participation in competitive programming platforms. Demonstrates exceptional collaboration, debugging, and adaptability in fast-paced, evolving environments.
+        Skilled Software Engineer with expertise in system programming, full-stack development, embedded systems, and competitive problem-solving. Proficient in C, C++, JavaScript, Angular, and low-level software design. Strong in algorithms, debugging, and collaborative development in fast-paced environments.
+    \end{onecolentry}
+
+    \section{Work Experience}
+
+    \vspace{0.2 cm}
+
+        \begin{twocolentry}{
+        \textit{Noida, India}    
+
+        \textit{July 2022 – Present}}
+            \textbf{Software Engineer} \\
+            \textit{Virtual Engineering Services PVT. LTD.}
+        \end{twocolentry}
+
+    \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Architected a scalable solution in C/C++ for converting 3D objects to 2D PDF drawings, significantly improving system reliability and performance.
+                \item Implemented multi-threading and concurrency in C++ to speed up data processing in large-scale simulations, reducing computational time by 40%.
+                \item Utilized advanced optimization techniques in HTML, CSS, JavaScript, and Angular to reduce load times by 30\%, facilitating the efficient display of complex, heavy models within web applications.
+                \item Leverages the Three.js library to create immersive 3D graphics and interactive visualizations for web applications, enhancing user engagement and interactivity.
+            \end{highlights}
+        \end{onecolentry}
+
+        \begin{twocolentry}{
+        \textit{New Delhi, India}    
+            
+        \textit{Aug 2021 – July 2022}}
+            \textbf{Software Engineer} \\
+            \textit{Extrieve Technologies}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Collaborated with the cross-functional team to design and implement three key projects, resulting in a 25\% increase in overall process efficiency and a 15\% reduction in delivery timelines.
+                % \item Built various utilities to support a C++ application.
+                \item Designed and developed a document image scanning system using C++ that automated the digitization process, cutting the manual processing time by 50\% and boosting throughput by 30\%.
+            \end{highlights}
+        \end{onecolentry}
+
+    \section{Education}
+
+        \begin{twocolentry}{
+        \textit{Sept 2016 – Dec 2020}}
+            \textbf{Kurukshetra University} \\
+            \textit{Bachelor of Technology in Computer Science}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item \textbf{Coursework:} Data Structures and Algorithms, Operating Systems, Database Management Systems, Computer Networks, Software Engineering, Compiler Design, Computer Architecture, Theory of Computation, Artificial Intelligence, Machine Learning
+            \end{highlights}
+        \end{onecolentry}
+
+    \section{Skills}
+
+    \begin{onecolentry}
+        \textbf{Technical Skills:} C, C++, JavaScript, Angular, Laravel, HTML, CSS, Three.js, x86 Assembly, POSIX sockets, Git \end{onecolentry}
+
+    \vspace{0.1 cm}
+
+    \begin{onecolentry}
+        \textbf{Soft Skills:} Collaborative Teamwork, Problem solving, Adaptability \end{onecolentry}
+
+    \section{Projects}
+
+        \begin{twocolentry}{
+        \textit{\href{https://www.thejat.in}{www.thejat.in}}
+        }
+            \textbf{Content Management System (CMS)}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a robust CMS for managing blogs, courses, and coding challenges, enhancing content delivery and user engagement.
+                \item Developed a scalable back-end using Laravel with RESTful API integration, ensuring smooth data flow and system reliability.
+                \item Designed an intuitive and responsive admin dashboard that streamlined content creation and management.
+                \item Tools Stack: Laravel
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+        % \begin{twocolentry}{
+        % \textit{\href{https://github.com/The-Jat/FarmScript}{github.com/The-Jat/Atomic}}}
+        %     \textbf{AtomiC}
+        % \end{twocolentry}
+
+        % \vspace{0.10 cm}
+        % \begin{onecolentry}
+        %     \begin{highlights}
+        %         \item Developed a basic script compiler.
+        %         \item Created a tokenizer and syntax analyzer.
+        %         \item Tools Stack: C/C++
+        %     \end{highlights}
+        % \end{onecolentry}
+
+        \vspace{0.5 cm}
+
+        \begin{twocolentry}{
+        \textit{\href{https://github.com/The-Jat/TheTaaJ}{github.com/The-Jat/TheTaaJ}}}
+            \textbf{Custom Operating System along with Boot Loader}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                 \item Engineered and implemented a 32-bit x86 operating system kernel from scratch.
+                 \item Utilized the framebuffer for graphical output, supporting text rendering, and basic 2D graphics.
+                \item Integrated an ISO 9660 boot system and advanced memory management features.
+                \item Technologies used: C, C++, x86 Assembly, Make, QEMU, VirtualBox.
+        \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+
+
+        % Another project start
+         \begin{twocolentry}{
+        \textit{\href{https://github.com/The-Jat/CppWeb}{github.com/The-Jat/CppWeb}}
+        }
+            \textbf{Lightweight HTTP Server}
+        \end{twocolentry}
+
+        \vspace{0.10 cm}
+        \begin{onecolentry}
+            \begin{highlights}
+                \item Developed a fast and minimal HTTP server using C++ socket programming without external libraries.
+                \item Handled HTTP/1.0 and HTTP/1.1 GET requests with proper request parsing and response generation.
+                \item Served static content (HTML, CSS, JS, images) directly from the filesystem.
+                \item Implemented basic HTTP response codes (200 OK, 404 Not Found, 400 Bad Request, etc.).
+                \item Tools Stack: C / C++, POSIX sockets, Make build system.
+            \end{highlights}
+        \end{onecolentry}
+
+        \vspace{0.2 cm}
+        % Another project end
+
+        % \begin{twocolentry}{
+        % \textit{\href{https://github.com/The-Jat/Win11Decorator}{github.com/The-Jat/Win11Decorator}}}
+        %     \textbf{Windows 11 Decorator for Haiku OS}
+        % \end{twocolentry}
+
+        % \vspace{0.10 cm}
+        % \begin{onecolentry}
+        %     \begin{highlights}
+        %         \item Built a decorator for Haiku OS to visually emulate Windows 11.
+        %         \item Mimics the Windows 11 aesthetic within the constraints of Haiku's decorator system.
+        %         \item Tools Stack: C, C++
+        %     \end{highlights}
+        % \end{onecolentry}
+
+\end{document}
