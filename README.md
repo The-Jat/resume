@@ -4,7 +4,7 @@ This repository contains the source code of my professional résumé/CV, written
 
 ## 📄 Preview
 
-You can view the compiled PDF here: [View Resume](./resume.pdf)
+You can view the compiled PDF here: [View Resume](./manish_kala_resume.pdf)
 
 ## 🛠️ How to Build
 
