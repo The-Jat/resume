@@ -7,7 +7,7 @@ This repository contains the source code of my professional résumé/CV, written
 You can view the compiled PDF here: [View Resume](./manish_kala_resume.pdf)
 
 Or
- [live version](https://www.thejat.in/resume)
+[live version](https://www.thejat.in/resume)
 
 ## 🛠️ How to Build
 
